@@ -7,14 +7,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
-import { useTheme, WALLPAPERS, type WallpaperName } from "../os/ThemeContext";
+import { useTheme, WALLPAPERS } from "../os/ThemeContext";
+import { WALLPAPER_TOKENS } from "../os/wallpaper-tokens";
 import { useT } from "../os/i18n";
-
-const SWATCH: Record<WallpaperName, string> = {
-  aurora: "linear-gradient(135deg, #ff8fbf, #6d5cff, #2a2178)",
-  glacier: "linear-gradient(135deg, #8ff5e0, #2f8fc0, #0a1f36)",
-  sunset: "linear-gradient(135deg, #ffd27a, #ec5f4f, #241030)",
-};
 
 export function WallpaperMenu() {
   const { wallpaper, setWallpaper } = useTheme();
@@ -36,7 +31,7 @@ export function WallpaperMenu() {
             onClick={() => setWallpaper(name)}
             className="flex items-center gap-2"
           >
-            <span className="size-4 rounded-full shrink-0 ring-1 ring-black/10" style={{ background: SWATCH[name] }} />
+            <span className="size-4 rounded-full shrink-0 ring-1 ring-black/10" style={{ background: WALLPAPER_TOKENS[name].swatch }} />
             <span className="flex-1">{t(`wallpaper.${name}`)}</span>
             {wallpaper === name && <CheckIcon className="size-3.5" />}
           </DropdownMenuItem>

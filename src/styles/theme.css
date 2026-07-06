@@ -31,6 +31,8 @@
   --macos-cc-slider-fill: rgba(255, 255, 255, 0.98);
   --macos-cc-slider-icon: rgba(0, 0, 0, 0.68);
   --macos-cc-hover: rgba(0, 0, 0, 0.04);
+  --wallpaper-text-gradient: linear-gradient(118deg, #ff8fbf 0%, #d07aff 38%, #6d5cff 72%, #4a3ab8 100%);
+  --wallpaper-accent: #8b5cf6;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;

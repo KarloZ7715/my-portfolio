@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { wallpaperCssVars } from "./wallpaper-tokens";
 
 export type ThemeMode = "light" | "dark" | "auto";
 export type WallpaperName = "aurora" | "glacier" | "sunset";
@@ -58,6 +59,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, [theme]);
+
+  useEffect(() => {
+    const vars = wallpaperCssVars(wallpaper, resolved);
+    for (const [key, value] of Object.entries(vars)) {
+      document.documentElement.style.setProperty(key, value);
+    }
+  }, [wallpaper, resolved]);
 
   const setTheme = useCallback((mode: ThemeMode) => setThemeState(mode), []);
 

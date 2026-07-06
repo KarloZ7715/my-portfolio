@@ -1,6 +1,8 @@
 import { Github, Linkedin, Mail, MapPin, Star, HardDrive, Cloud, Tag } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useT } from "../../os/i18n";
+import { getBioParagraphs } from "./bio-content";
+import { BioParagraph } from "./BioTypography";
 import { MusicNoteGlyph, TechIcon } from "../../lib/icons";
 import {
   InterestGamepadIcon,
@@ -25,7 +27,7 @@ const INTERESTS = [
 
 export function AboutApp() {
   const { t, lang } = useT();
-  const bioParagraphs = t("about.bio").split("\n\n");
+  const bioParagraphs = getBioParagraphs(lang);
 
   return (
     <div className="flex h-full text-[color:var(--macos-text-primary)]">
@@ -67,11 +69,9 @@ export function AboutApp() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 mb-6 max-w-xl">
-          {bioParagraphs.map((p, i) => (
-            <p key={i} className="text-[14px] leading-relaxed text-[color:var(--macos-text-secondary)]" style={{ textWrap: "pretty" as const }}>
-              {p}
-            </p>
+        <div className="flex flex-col gap-3.5 mb-6 max-w-xl">
+          {bioParagraphs.map((segments, i) => (
+            <BioParagraph key={i} segments={segments} index={i} />
           ))}
         </div>
 

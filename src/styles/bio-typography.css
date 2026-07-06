@@ -1,0 +1,186 @@
+/* Bio typography — minimal accents + purposeful hovers */
+
+.bio-role {
+  display: inline;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: var(--wallpaper-text-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background 0.5s ease;
+}
+
+/* Language chips */
+.bio-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32em;
+  padding: 0.06em 0.5em 0.1em;
+  margin: 0 0.04em;
+  border-radius: 0.55em;
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.35;
+  color: var(--lang);
+  background: color-mix(in srgb, var(--lang) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lang) 38%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--lang) 22%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: rotate(var(--lang-tilt, 0deg));
+  vertical-align: baseline;
+  cursor: default;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.bio-lang__dot {
+  width: 0.38em;
+  height: 0.38em;
+  border-radius: 999px;
+  background: var(--lang);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lang) 40%, white);
+  flex-shrink: 0;
+}
+
+.dark .bio-lang {
+  background: color-mix(in srgb, var(--lang) 22%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--lang) 28%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Inline code — terminal cursor on hover, opens Projects on click */
+.bio-code {
+  display: inline-flex;
+  align-items: baseline;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  padding: 0.04em 0.32em;
+  border-radius: 0.35em;
+  border: none;
+  color: var(--macos-text-primary);
+  background: color-mix(in srgb, var(--macos-text-muted) 14%, transparent);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.bio-code__text {
+  position: relative;
+}
+
+.bio-code__text::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0.82em;
+  margin-left: 0;
+  background: var(--wallpaper-accent);
+  opacity: 0;
+  vertical-align: -0.08em;
+  transition: opacity 0.2s ease;
+}
+
+.dark .bio-code {
+  background: color-mix(in srgb, var(--macos-text-muted) 22%, transparent);
+}
+
+/* Closing punchline */
+.bio-punchline {
+  position: relative;
+  display: inline-block;
+  font-weight: 600;
+  color: var(--macos-text-primary);
+  letter-spacing: -0.02em;
+  cursor: default;
+  transition: color 0.35s ease;
+}
+
+.bio-punchline__ring {
+  position: absolute;
+  left: -0.4em;
+  right: -0.4em;
+  top: -0.3em;
+  bottom: -0.3em;
+  width: calc(100% + 0.8em);
+  height: calc(100% + 0.6em);
+  pointer-events: none;
+  overflow: visible;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.bio-punchline__path {
+  transition:
+    stroke-width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
+}
+
+.bio-paragraph {
+  text-wrap: pretty;
+}
+
+/* ── Hover interactions (fine pointer only) ── */
+@media (hover: hover) and (pointer: fine) {
+  .bio-lang:hover {
+    background: color-mix(in srgb, var(--lang) 20%, transparent);
+    border-color: color-mix(in srgb, var(--lang) 48%, transparent);
+  }
+
+  .bio-code:hover {
+    background: color-mix(in srgb, var(--wallpaper-accent) 16%, transparent);
+  }
+
+  .bio-code:hover .bio-code__text::after {
+    width: 2px;
+    margin-left: 2px;
+    opacity: 1;
+    animation: bio-cursor-blink 1.05s step-end infinite;
+  }
+
+  .bio-punchline:hover {
+    color: color-mix(in srgb, var(--wallpaper-accent) 72%, var(--macos-text-primary));
+  }
+
+  .bio-punchline:hover .bio-punchline__ring {
+    transform: scale(1.07) rotate(3deg);
+  }
+
+  .bio-punchline:hover .bio-punchline__path {
+    stroke-width: 2.6;
+    opacity: 1;
+  }
+}
+
+@keyframes bio-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bio-lang,
+  .bio-code,
+  .bio-punchline,
+  .bio-punchline__ring,
+  .bio-punchline__path {
+    transition: none;
+  }
+
+  .bio-code:hover .bio-code__text::after {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -24,10 +24,6 @@ const dict: Dict = {
   "about.hello": { es: "Hola, soy", en: "Hi, I'm" },
   "about.name": { es: "Carlos Alberto Canabal Cordero", en: "Carlos Alberto Canabal Cordero" },
   "about.role": { es: "Ingeniero de Sistemas", en: "Systems Engineer" },
-  "about.bio": {
-    es: "Soy ingeniero de sistemas. Programo en TypeScript, Python, Rust y Java. He construido software que funciona: terminales, sistemas de IA, tiendas en línea, dispositivos IoT.\n\nVivo en Montería, Colombia. Uso Linux, manejo moto, escucho más música de la que mi disco soporta. Programo porque me gusta. Si no me pagaran, lo haría igual.\n\nSi una IA puede leer mi código sin alucinar, hice bien mi trabajo.",
-    en: "I'm a systems engineer. I write TypeScript, Python, Rust, and Java. I've built software that works: terminals, AI systems, online stores, IoT devices.\n\nI live in Montería, Colombia. I run Linux, ride a motorcycle, and listen to more music than my disk can hold. I'd code even if nobody paid me. Lucky for me, someone does.\n\nIf an AI can read my code without hallucinating, I did my job right.",
-  },
   "about.location": { es: "Montería, Colombia", en: "Montería, Colombia" },
   "about.interests.title": { es: "Fuera del teclado", en: "Off the keyboard" },
   "about.interest.music": { es: "Música", en: "Music" },
