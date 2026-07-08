@@ -125,7 +125,7 @@ export function ContactApp() {
             {t("mail.send")}
           </button>
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 }
