@@ -5,7 +5,16 @@
   display: inline;
 }
 
-.bio-role-gradient {
+.bio-role-spacer {
+  visibility: hidden;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.bio-role-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
   display: inline;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -13,13 +22,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.bio-role > .bio-role-gradient:nth-child(2),
-.bio-role > .bio-role-gradient:nth-child(3) {
-  position: absolute;
-  left: 0;
-  top: 0;
+  pointer-events: none;
 }
 
 /* Language chips */

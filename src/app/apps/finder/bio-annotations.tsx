@@ -54,18 +54,18 @@ export function BioRole({ children }: AnnoProps) {
 
   return (
     <span className="bio-role">
-      <span className="bio-role-gradient" aria-hidden>
+      <span className="bio-role-spacer" aria-hidden>
         {children}
       </span>
       {reduced ? (
-        <span className="bio-role-gradient" style={{ background: gradient }}>
+        <span className="bio-role-overlay" style={{ background: gradient }}>
           {children}
         </span>
       ) : (
         <AnimatePresence mode="sync" initial={false}>
           <motion.span
             key={key}
-            className="bio-role-gradient"
+            className="bio-role-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
