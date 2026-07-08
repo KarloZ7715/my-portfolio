@@ -1,12 +1,41 @@
 import { Send, Inbox, Star, Archive, Trash2 } from "lucide-react";
+import { motion, type Variants } from "motion/react";
 import { useState } from "react";
 import { useT } from "../../os/i18n";
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.04 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const formVariants: Variants = {
+  hidden: { opacity: 0, x: 10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const RECIPIENT = "carlos152924@gmail.com";
 
 export function ContactApp() {
   const { t } = useT();
   const [form, setForm] = useState({ name: "", email: "", subject: "", body: "" });
+  const reduced = usePrefersReducedMotion();
 
   const send = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,20 +53,32 @@ export function ContactApp() {
 
   return (
     <div className="flex h-full text-[color:var(--macos-text-primary)]">
-      <aside className="w-40 shrink-0 h-full p-2 flex flex-col gap-0.5 bg-[color:var(--macos-sidebar-bg)] border-r border-[color:var(--macos-hairline)]">
+      <motion.aside
+        className="w-40 shrink-0 h-full p-2 flex flex-col gap-0.5 bg-[color:var(--macos-sidebar-bg)] border-r border-[color:var(--macos-hairline)]"
+        variants={containerVariants}
+        initial={reduced ? false : "hidden"}
+        animate="visible"
+      >
         {folders.map((it) => (
-          <button
+          <motion.button
             key={it.label}
+            variants={itemVariants}
             className="flex items-center gap-2 px-2 h-6 rounded text-[13px] hover:bg-black/5 dark:hover:bg-white/8 transition-colors"
           >
             <it.icon className="size-[13px] text-[color:var(--macos-accent)]" />
             <span className="flex-1 text-left">{it.label}</span>
             {"n" in it && it.n && <span className="text-[11px] text-[color:var(--macos-text-muted)] tabular-nums">{it.n}</span>}
-          </button>
+          </motion.button>
         ))}
-      </aside>
+      </motion.aside>
 
-      <form onSubmit={send} className="flex-1 flex flex-col">
+      <motion.form
+        onSubmit={send}
+        className="flex-1 flex flex-col"
+        variants={formVariants}
+        initial={reduced ? false : "hidden"}
+        animate="visible"
+      >
         <Row label={t("mail.to")}>
           <span className="text-[13px]">{RECIPIENT}</span>
         </Row>
