@@ -1,6 +1,12 @@
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { useTheme, type WallpaperName } from "../os/ThemeContext";
 import { usePrefersReducedMotion } from "../lib/usePrefersReducedMotion";
+
+const WALLPAPER_TRANSITION = {
+  duration: 1,
+  ease: [0.22, 0.61, 0.36, 1],
+};
 
 const GRADIENTS: Record<WallpaperName, { light: string; dark: string; overlay: string }> = {
   aurora: {
@@ -58,9 +64,27 @@ export function Wallpaper() {
 
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
-      <div ref={parallaxRef} className="absolute -inset-4 transition-[background] duration-500">
-        <div className="absolute inset-0" style={{ background: resolved === "dark" ? g.dark : g.light }} />
-        <div className="absolute inset-0 mix-blend-overlay opacity-60" style={{ background: g.overlay }} />
+      <div ref={parallaxRef} className="absolute -inset-4">
+        {reduceMotion ? (
+          <div className="absolute inset-0">
+            <div className="absolute inset-0" style={{ background: resolved === "dark" ? g.dark : g.light }} />
+            <div className="absolute inset-0 mix-blend-overlay opacity-60" style={{ background: g.overlay }} />
+          </div>
+        ) : (
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={wallpaper}
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.03 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={WALLPAPER_TRANSITION}
+            >
+              <div className="absolute inset-0" style={{ background: resolved === "dark" ? g.dark : g.light }} />
+              <div className="absolute inset-0 mix-blend-overlay opacity-60" style={{ background: g.overlay }} />
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
       <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: NOISE_SVG }} />
     </div>
