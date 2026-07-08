@@ -1,8 +1,10 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { useOS } from "../../os/OSContext";
 import { useT } from "../../os/i18n";
+import { useTheme } from "../../os/ThemeContext";
+import { WALLPAPER_TOKENS } from "../../os/wallpaper-tokens";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const SPRING = { type: "spring" as const, stiffness: 420, damping: 24 };
@@ -45,7 +47,37 @@ function useHoverLift() {
 }
 
 export function BioRole({ children }: AnnoProps) {
-  return <span className="bio-role">{children}</span>;
+  const { wallpaper, resolved } = useTheme();
+  const reduced = usePrefersReducedMotion();
+  const gradient = WALLPAPER_TOKENS[wallpaper].textGradient[resolved];
+  const key = `${wallpaper}-${resolved}`;
+
+  return (
+    <span className="bio-role">
+      <span className="bio-role-gradient" aria-hidden>
+        {children}
+      </span>
+      {reduced ? (
+        <span className="bio-role-gradient" style={{ background: gradient }}>
+          {children}
+        </span>
+      ) : (
+        <AnimatePresence mode="sync" initial={false}>
+          <motion.span
+            key={key}
+            className="bio-role-gradient"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+            style={{ background: gradient }}
+          >
+            {children}
+          </motion.span>
+        </AnimatePresence>
+      )}
+    </span>
+  );
 }
 
 const LANG_STYLES = {

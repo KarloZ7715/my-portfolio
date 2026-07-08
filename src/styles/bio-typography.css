@@ -1,6 +1,11 @@
 /* Bio typography — minimal accents + purposeful hovers */
 
 .bio-role {
+  position: relative;
+  display: inline;
+}
+
+.bio-role-gradient {
   display: inline;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -8,7 +13,13 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transition: background 0.5s ease;
+}
+
+.bio-role > .bio-role-gradient:nth-child(2),
+.bio-role > .bio-role-gradient:nth-child(3) {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 /* Language chips */
