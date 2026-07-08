@@ -1,7 +1,15 @@
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import type { BioDecoration, BioSegment } from "./bio-content";
 import { BioCode, BioLang, BioPunchline, BioRole } from "./bio-annotations";
-import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const LANG_DELAY: Partial<Record<BioDecoration, number>> = {
   "mark-ts": 0.04,
@@ -56,16 +64,11 @@ function BioSegmentText({ segment, index }: { segment: BioSegment; index: number
   }
 }
 
-export function BioParagraph({ segments, index }: { segments: BioSegment[]; index: number }) {
-  const reduced = usePrefersReducedMotion();
-
+export function BioParagraph({ segments }: { segments: BioSegment[] }) {
   return (
     <motion.p
       className="bio-paragraph text-[14px] leading-[1.68] text-[color:var(--macos-text-secondary)]"
-      initial={reduced ? false : { opacity: 0, y: 8 }}
-      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-6% 0px" }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      variants={itemVariants}
     >
       {segments.map((segment, i) => (
         <BioSegmentText key={i} segment={segment} index={i} />

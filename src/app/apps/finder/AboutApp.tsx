@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail, MapPin, Star, HardDrive, Cloud, Tag } from "lucide-react";
+import { motion, type Variants } from "motion/react";
 import type { CSSProperties } from "react";
 import { useT } from "../../os/i18n";
 import { getBioParagraphs } from "./bio-content";
@@ -9,6 +10,27 @@ import {
   InterestMotorcycleIcon,
   InterestSparklesIcon,
 } from "../../lib/interest-icons";
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.04,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const sidebarItems = [
   { icon: Star, label: { es: "Favoritos", en: "Favorites" } },
@@ -28,6 +50,7 @@ const INTERESTS = [
 export function AboutApp() {
   const { t, lang } = useT();
   const bioParagraphs = getBioParagraphs(lang);
+  const reduced = usePrefersReducedMotion();
 
   return (
     <div className="flex h-full text-[color:var(--macos-text-primary)]">
@@ -46,8 +69,13 @@ export function AboutApp() {
         ))}
       </aside>
 
-      <main className="flex-1 overflow-auto macos-scroll p-8">
-        <div className="flex items-start gap-6 mb-6">
+      <motion.main
+        className="flex-1 overflow-auto macos-scroll p-8"
+        variants={containerVariants}
+        initial={reduced ? false : "hidden"}
+        animate="visible"
+      >
+        <motion.div className="flex items-start gap-6 mb-6" variants={itemVariants}>
           <div
             className="size-24 rounded-full bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 flex items-center justify-center text-white shrink-0"
             style={{ boxShadow: "0 8px 20px -6px rgba(80,60,200,0.5)" }}
@@ -67,39 +95,43 @@ export function AboutApp() {
               <MapPin className="size-3" /> {t("about.location")}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col gap-3.5 mb-6 max-w-xl">
+        <motion.div className="flex flex-col gap-3.5 mb-6 max-w-xl" variants={itemVariants}>
           {bioParagraphs.map((segments, i) => (
-            <BioParagraph key={i} segments={segments} index={i} />
+            <BioParagraph key={i} segments={segments} />
           ))}
-        </div>
+        </motion.div>
 
-        <div className="mb-2 text-[11px] uppercase tracking-wider text-[color:var(--macos-text-muted)]">
-          {t("about.interests.title")}
-        </div>
-        <div className="flex flex-wrap gap-2.5 mb-6">
-          {INTERESTS.map((it) => {
-            const Icon = it.icon ?? ((props: { className?: string }) => <TechIcon name={it.tech!} className={props.className} />);
-            return (
-              <div
-                key={it.key}
-                className="flex items-center gap-2 px-3 h-9 rounded-full bg-[color:var(--macos-window-bg)] border border-[color:var(--macos-hairline)] text-[13px] transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/8"
-              >
-                <Icon className="size-4" style={{ color: it.brand }} />
-                <span>{t(it.key)}</span>
-              </div>
-            );
-          })}
-        </div>
+        <motion.div variants={itemVariants}>
+          <div className="mb-2 text-[11px] uppercase tracking-wider text-[color:var(--macos-text-muted)]">
+            {t("about.interests.title")}
+          </div>
+          <div className="flex flex-wrap gap-2.5 mb-6">
+            {INTERESTS.map((it) => {
+              const Icon = it.icon ?? ((props: { className?: string }) => <TechIcon name={it.tech!} className={props.className} />);
+              return (
+                <div
+                  key={it.key}
+                  className="flex items-center gap-2 px-3 h-9 rounded-full bg-[color:var(--macos-window-bg)] border border-[color:var(--macos-hairline)] text-[13px] transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/8"
+                >
+                  <Icon className="size-4" style={{ color: it.brand }} />
+                  <span>{t(it.key)}</span>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
 
-        <div className="mb-2 text-[11px] uppercase tracking-wider text-[color:var(--macos-text-muted)]">{t("about.links")}</div>
-        <div className="flex flex-wrap gap-2.5">
-          <BrandLink href="https://github.com/KarloZ7715" icon={Github} label="GitHub" from="#4a4a4d" to="#18181a" />
-          <BrandLink href="https://www.linkedin.com/in/carlos-alberto-canabal-cordero-828508339/" icon={Linkedin} label="LinkedIn" from="#0a84ff" to="#004182" />
-          <BrandLink href="mailto:carlos152924@gmail.com" icon={Mail} label="Email" from="#34aadc" to="#0a66c2" />
-        </div>
-      </main>
+        <motion.div variants={itemVariants}>
+          <div className="mb-2 text-[11px] uppercase tracking-wider text-[color:var(--macos-text-muted)]">{t("about.links")}</div>
+          <div className="flex flex-wrap gap-2.5">
+            <BrandLink href="https://github.com/KarloZ7715" icon={Github} label="GitHub" from="#4a4a4d" to="#18181a" />
+            <BrandLink href="https://www.linkedin.com/in/carlos-alberto-canabal-cordero-828508339/" icon={Linkedin} label="LinkedIn" from="#0a84ff" to="#004182" />
+            <BrandLink href="mailto:carlos152924@gmail.com" icon={Mail} label="Email" from="#34aadc" to="#0a66c2" />
+          </div>
+        </motion.div>
+      </motion.main>
     </div>
   );
 }
