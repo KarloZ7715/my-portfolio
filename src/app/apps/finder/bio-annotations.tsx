@@ -58,7 +58,7 @@ export function BioRole({ children }: AnnoProps) {
         {children}
       </span>
       {reduced ? (
-        <span className="bio-role-overlay" style={{ background: gradient }}>
+        <span className="bio-role-overlay" style={{ backgroundImage: gradient }}>
           {children}
         </span>
       ) : (
@@ -70,7 +70,7 @@ export function BioRole({ children }: AnnoProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-            style={{ background: gradient }}
+            style={{ backgroundImage: gradient }}
           >
             {children}
           </motion.span>

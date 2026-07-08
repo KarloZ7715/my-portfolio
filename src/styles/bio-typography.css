@@ -1,8 +1,13 @@
 /* Bio typography — minimal accents + purposeful hovers */
 
 .bio-role {
-  position: relative;
-  display: inline;
+  display: inline-grid;
+  vertical-align: baseline;
+}
+
+.bio-role-spacer,
+.bio-role-overlay {
+  grid-area: 1 / 1;
 }
 
 .bio-role-spacer {
@@ -12,16 +17,13 @@
 }
 
 .bio-role-overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: inline;
   font-weight: 600;
   letter-spacing: -0.02em;
-  background: var(--wallpaper-text-gradient);
+  background-image: var(--wallpaper-text-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   pointer-events: none;
 }
 
