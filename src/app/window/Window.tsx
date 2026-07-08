@@ -123,14 +123,7 @@ export const Window = memo(function Window({ app, state }: Props) {
         willChange: "transform, opacity",
       }}
     >
-      {/* Focus pulse wrapper — replays whenever this window is brought to front */}
-      <motion.div
-        key={state.z}
-        initial={{ scale: 1 }}
-        animate={{ scale: [1, 1.006, 1] }}
-        transition={{ duration: 0.12, ease: "easeOut" }}
-        className="w-full h-full flex flex-col"
-      >
+      <div className="w-full h-full flex flex-col">
         {/* Titlebar */}
         <div
           onPointerDown={onDragStart}
@@ -167,12 +160,12 @@ export const Window = memo(function Window({ app, state }: Props) {
         </div>
 
         {/* Content */}
-          <div className="flex-1 overflow-hidden bg-[color:var(--macos-window-bg)] text-[color:var(--macos-text-primary)]">
-            <Suspense fallback={<div className="flex items-center justify-center h-full" />}>
-              <AppComponent />
-            </Suspense>
-          </div>
-      </motion.div>
+        <div className="flex-1 overflow-hidden bg-[color:var(--macos-window-bg)] text-[color:var(--macos-text-primary)]">
+          <Suspense fallback={<div className="flex items-center justify-center h-full" />}>
+            <AppComponent />
+          </Suspense>
+        </div>
+      </div>
 
       {/* Resize handles */}
       {!state.maximized &&
