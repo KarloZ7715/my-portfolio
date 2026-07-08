@@ -279,3 +279,15 @@
     fill: currentColor;
   }
 }
+
+/* Smooth macOS-like light/dark transition via View Transitions API */
+::view-transition-group(root) {
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+}

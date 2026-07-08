@@ -45,13 +45,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const next = resolveTheme(theme);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const apply = () => {
-      const next = resolveTheme(theme);
       setResolved(next);
       document.documentElement.classList.toggle("dark", next === "dark");
+      localStorage.setItem(STORAGE_KEY, theme);
+      const vars = wallpaperCssVars(wallpaper, next);
+      for (const [key, value] of Object.entries(vars)) {
+        document.documentElement.style.setProperty(key, value);
+      }
     };
-    apply();
-    localStorage.setItem(STORAGE_KEY, theme);
+
+    if (reduced || !("startViewTransition" in document)) {
+      apply();
+    } else {
+      const transition = document.startViewTransition(() => {
+        apply();
+      });
+      return () => {
+        transition.skipTransition?.();
+      };
+    }
 
     if (theme !== "auto") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
