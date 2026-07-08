@@ -38,10 +38,6 @@ export function useShortcuts({ onSpotlight }: Options) {
         hideAll();
         return;
       }
-      if (key === "q") {
-        e.preventDefault();
-        return;
-      }
       if (key === "]") {
         e.preventDefault();
         cycleFocus();
@@ -66,5 +62,4 @@ export const SHORTCUTS_CHEATSHEET: { combo: string; key: string }[] = [
   { combo: "⌥ ⇧ H", key: "shortcuts.hideAll" },
   { combo: "⌥ ⇧ ]", key: "shortcuts.cycle" },
   { combo: "⌥ ⇧ A", key: "shortcuts.aboutMe" },
-  { combo: "⌥ ⇧ Q", key: "shortcuts.quit" },
 ];
