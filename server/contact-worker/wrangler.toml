@@ -1,0 +1,21 @@
+name = "karloz-contact-worker"
+main = "src/index.ts"
+compatibility_date = "2025-07-01"
+
+# Bind a KV namespace for basic per-IP rate limiting.
+# Create it once with: wrangler kv namespace create RATE_LIMIT_KV
+# then paste the returned id/preview_id below.
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_KV_PREVIEW_ID"
+
+# Secrets (never commit these): set with
+#   wrangler secret put BREVO_API_KEY
+#   wrangler secret put BREVO_SENDER_EMAIL
+# BREVO_SENDER_EMAIL must be a sender verified in your Brevo account.
+
+# Uncomment and set once you point a subdomain at this worker:
+# [[routes]]
+# pattern = "api.karloz.dev/contact"
+# custom_domain = true

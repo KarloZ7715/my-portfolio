@@ -31,6 +31,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
+        env:
+          VITE_CONTACT_API_URL: ${{ vars.VITE_CONTACT_API_URL }}
 
       - uses: actions/configure-pages@v4
 

@@ -57,12 +57,17 @@ const dict: Dict = {
   "mail.placeholder.subject": { es: "Hablemos de…", en: "Let's talk about…" },
   "mail.placeholder.body": { es: "Cuéntame qué tienes en mente", en: "Tell me what's on your mind" },
   "mail.note": {
-    es: "Al enviar se abrirá tu cliente de correo.",
-    en: "Sending will open your mail client.",
+    es: "Te responderé directo a tu correo.",
+    en: "I'll reply straight to your inbox.",
   },
+  "mail.sending": { es: "Enviando…", en: "Sending…" },
   "mail.sent": {
-    es: "Mensaje listo. Se abrió tu cliente de correo.",
-    en: "Message ready. Your mail client should have opened.",
+    es: "¡Mensaje enviado! Te responderé pronto.",
+    en: "Message sent! I'll get back to you soon.",
+  },
+  "mail.error": {
+    es: "No se pudo enviar. Intenta de nuevo en unos minutos.",
+    en: "Couldn't send it. Please try again in a few minutes.",
   },
   "mail.folder.inbox": { es: "Recibidos", en: "Inbox" },
   "mail.folder.starred": { es: "Destacados", en: "Starred" },

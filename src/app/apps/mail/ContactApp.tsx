@@ -1,4 +1,4 @@
-import { Send, Inbox, Star, Archive, Trash2 } from "lucide-react";
+import { Send, Inbox, Star, Archive, Trash2, Loader2 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
 import { useState } from "react";
 import { useT } from "../../os/i18n";
@@ -22,17 +22,36 @@ const formItemVariants: Variants = {
 };
 
 const RECIPIENT = "carlos152924@gmail.com";
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL as string | undefined;
+
+type SendStatus = "idle" | "sending" | "success" | "error";
 
 export function ContactApp() {
   const { t } = useT();
   const [form, setForm] = useState({ name: "", email: "", subject: "", body: "" });
+  const [company, setCompany] = useState(""); // honeypot, must stay empty
+  const [status, setStatus] = useState<SendStatus>("idle");
   const reduced = usePrefersReducedMotion();
 
-  const send = (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
-    const body = encodeURIComponent(`${form.body}\n\n- ${form.name} <${form.email}>`);
-    const subject = encodeURIComponent(form.subject || "Portfolio");
-    window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+    if (!CONTACT_API_URL || status === "sending") return;
+
+    setStatus("sending");
+    try {
+      const res = await fetch(CONTACT_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, company }),
+      });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+      if (!res.ok || !data?.ok) throw new Error("send_failed");
+
+      setStatus("success");
+      setForm({ name: "", email: "", subject: "", body: "" });
+    } catch {
+      setStatus("error");
+    }
   };
 
   const folders = [
@@ -101,16 +120,36 @@ export function ContactApp() {
             placeholder={t("mail.placeholder.body")}
             className="flex-1 w-full p-4 bg-transparent outline-none text-[13px] resize-none text-[color:var(--macos-text-primary)] placeholder:text-[color:var(--macos-text-muted)]"
           />
+          <input
+            type="text"
+            name="company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="sr-only"
+          />
           <motion.div
             variants={formItemVariants}
             className="flex items-center justify-between px-4 py-2 border-t border-[color:var(--macos-hairline)] bg-[color:var(--macos-sidebar-bg)]"
           >
-            <span className="text-[11px] text-[color:var(--macos-text-muted)]">{t("mail.note")}</span>
+            <span className="text-[11px] text-[color:var(--macos-text-muted)]">
+              {status === "sending" && t("mail.sending")}
+              {status === "success" && t("mail.sent")}
+              {status === "error" && t("mail.error")}
+              {status === "idle" && t("mail.note")}
+            </span>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-3 h-7 rounded-md bg-[color:var(--macos-accent)] text-white text-[12px] active:scale-[0.96] transition-transform"
+              disabled={status === "sending"}
+              className="inline-flex items-center gap-1.5 px-3 h-7 rounded-md bg-[color:var(--macos-accent)] text-white text-[12px] active:scale-[0.96] transition-transform disabled:opacity-60 disabled:active:scale-100"
             >
-              <Send className="size-[12px]" />
+              {status === "sending" ? (
+                <Loader2 className="size-[12px] animate-spin" />
+              ) : (
+                <Send className="size-[12px]" />
+              )}
               {t("mail.send")}
             </button>
           </motion.div>
