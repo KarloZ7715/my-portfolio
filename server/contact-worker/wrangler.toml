@@ -7,8 +7,8 @@ compatibility_date = "2025-07-01"
 # then paste the returned id/preview_id below.
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_KV_PREVIEW_ID"
+id = "e87d7f30b317451e882082a8a3f332dd"
+preview_id = "60e59d50fd9e4a0c9b0caa1836a9ca29"
 
 # Secrets (never commit these): set with
 #   wrangler secret put BREVO_API_KEY

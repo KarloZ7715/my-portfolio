@@ -43,7 +43,11 @@ function json(data: unknown, status: number, origin: string | null): Response {
 }
 
 function isNonEmptyString(value: unknown, maxLength: number): value is string {
-  return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+  return (
+    typeof value === "string" &&
+    value.trim().length > 0 &&
+    value.length <= maxLength
+  );
 }
 
 function escapeHtml(value: string): string {
@@ -79,7 +83,10 @@ export default {
     }
 
     // Honeypot: bots fill hidden fields. Pretend success without sending anything.
-    if (typeof payload.company === "string" && payload.company.trim().length > 0) {
+    if (
+      typeof payload.company === "string" &&
+      payload.company.trim().length > 0
+    ) {
       return json({ ok: true }, 200, origin);
     }
 
@@ -129,6 +136,11 @@ export default {
     });
 
     if (!brevoResponse.ok) {
+      console.error(
+        "Brevo error",
+        brevoResponse.status,
+        await brevoResponse.text(),
+      );
       return json({ ok: false, error: "email_provider_error" }, 502, origin);
     }
 
