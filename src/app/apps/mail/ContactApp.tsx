@@ -84,7 +84,9 @@ export function ContactApp() {
           animate="visible"
         >
           <Row label={t("mail.to")} variants={formItemVariants}>
-            <span className="text-[13px]">{RECIPIENT}</span>
+            <span className="text-[13px] select-text cursor-text selection:bg-[#0a84ff]/30 selection:text-[color:var(--macos-text-primary)]">
+              {RECIPIENT}
+            </span>
           </Row>
           <Row label={t("mail.from")} variants={formItemVariants}>
             <input
